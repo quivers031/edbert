@@ -67,7 +67,8 @@ namespace WindowsFormsApp2
                 sqlAdapter = new MySqlDataAdapter(sqlCommand);
                 sqlAdapter.Fill(dtTeamHomeManager);
 
-                sqlQuery = "Select home_stadium from team t where t.team_name = '" + comboBoxHomeTeam.SelectedValue + "'";
+                //sqlQuery = "Select home_stadium from team t where t.team_name = '" + comboBoxHomeTeam.SelectedValue + "'";
+                sqlQuery = "Select CONCAT(home_stadium,' , ',city) from team t where t.team_name = '" + comboBoxHomeTeam.SelectedValue + "'";
                 DataTable dtTeamHomeStadium = new DataTable();
                 sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
                 sqlAdapter = new MySqlDataAdapter(sqlCommand);
