@@ -17,7 +17,7 @@ namespace WindowsFormsApp2
             InitializeComponent();
         }
 
-        public static string sqlConnection = "server = localhost; uid = root; pwd = ; database = premier_league";
+        public static string sqlConnection = "server = 139.255.11.84; uid = student; pwd = isbmantap ; database = premier_league";
         public MySqlConnection sqlConnect = new MySqlConnection(sqlConnection);
         public MySqlCommand sqlCommand;
         public MySqlDataAdapter sqlAdapter;
@@ -79,12 +79,12 @@ namespace WindowsFormsApp2
                 sqlAdapter = new MySqlDataAdapter(sqlCommand);
                 sqlAdapter.Fill(dtTeamHomeStadiumCapacity);
 
-                /*
-                sqlQuery = "Select player_name from player p, team t where t.captain_id = p.captain_id AND t.team_name = '" + comboBoxHomeTeam.SelectedValue + "'";
+                
+                sqlQuery = "Select player_name from player p, team t where t.captain_id = p.player_id AND t.team_name = '" + comboBoxHomeTeam.SelectedValue + "'";
                 DataTable dtTeamHomeCaptain = new DataTable();
                 sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
                 sqlAdapter = new MySqlDataAdapter(sqlCommand);
-                sqlAdapter.Fill(dtTeamHomeCaptain);*/
+                sqlAdapter.Fill(dtTeamHomeCaptain);
 
 
                 labelNManagerH.Text = dtTeamHomeManager.Rows[0][0].ToString();
@@ -93,7 +93,7 @@ namespace WindowsFormsApp2
 
                 labelCapacityStadiumH.Text = dtTeamHomeStadiumCapacity.Rows[0][0].ToString();
 
-                //labelNCaptainH.Text = dtTeamHomeCaptain.Rows[0][0].ToString();
+                labelNCaptainH.Text = dtTeamHomeCaptain.Rows[0][0].ToString();
             }
             catch (Exception)
             {
@@ -106,10 +106,30 @@ namespace WindowsFormsApp2
 
         private void comboBoxAwayTeam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            sqlQuery = "SELECT team_name FROM team";
-            DataTable dtTeam = new DataTable();
-            sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
-            sqlAdapter = new MySqlDataAdapter(sqlCommand);
+            try
+            {
+                sqlQuery = "Select manager_name from manager m, team t where t.manager_id = m.manager_id AND t.team_name = '" + comboBoxAwayTeam.SelectedValue + "'";
+                DataTable dtTeamAwayManager = new DataTable();
+                sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
+                sqlAdapter = new MySqlDataAdapter(sqlCommand);
+                sqlAdapter.Fill(dtTeamAwayManager);
+
+                sqlQuery = "Select player_name from player p, team t where t.captain_id = p.player_id AND t.team_name = '" + comboBoxAwayTeam.SelectedValue + "'";
+                DataTable dtTeamAwayCaptain = new DataTable();
+                sqlCommand = new MySqlCommand(sqlQuery, sqlConnect);
+                sqlAdapter = new MySqlDataAdapter(sqlCommand);
+                sqlAdapter.Fill(dtTeamAwayCaptain);
+
+                labelNManagerA.Text = dtTeamAwayManager.Rows[0][0].ToString();
+                labelNCaptainA.Text = dtTeamAwayCaptain.Rows[0][0].ToString();
+                
+            }
+            catch (Exception)
+            {
+
+                
+            }
+            
             
             
 
